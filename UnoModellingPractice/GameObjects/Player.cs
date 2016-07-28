@@ -145,10 +145,11 @@ namespace UnoModellingPractice.GameObjects
             //We cannot play wild draw four unless there are no other matches.
             if (matching.All(x => x.Value == CardValue.DrawFour))
             {
-                Hand.Remove(matching.First());
                 turn.Card = matching.First();
                 turn.DeclaredColor = SelectDominantColor();
                 turn.Result = TurnResult.WildCard;
+                Hand.Remove(matching.First());
+
                 return turn;
             }
 
@@ -159,6 +160,7 @@ namespace UnoModellingPractice.GameObjects
                 turn.Result = TurnResult.DrawTwo;
                 turn.DeclaredColor = turn.Card.Color;
                 Hand.Remove(turn.Card);
+
                 return turn;
             }
 
@@ -168,6 +170,7 @@ namespace UnoModellingPractice.GameObjects
                 turn.Result = TurnResult.Skip;
                 turn.DeclaredColor = turn.Card.Color;
                 Hand.Remove(turn.Card);
+
                 return turn;
             }
 
@@ -177,24 +180,27 @@ namespace UnoModellingPractice.GameObjects
                 turn.Result = TurnResult.Reversed;
                 turn.DeclaredColor = turn.Card.Color;
                 Hand.Remove(turn.Card);
+
                 return turn;
             }
 
             var matchOnColor = matching.Where(x => x.Color == color);
             if (matchOnColor.Any())
             {
-                Hand.Remove(matchOnColor.First());
                 turn.Card = matchOnColor.First();
                 turn.DeclaredColor = turn.Card.Color;
+                Hand.Remove(matchOnColor.First());
+
                 return turn;
             }
 
             if (matching.Any(x => x.Value == CardValue.Wild))
             {
                 turn.Card = matching.First(x => x.Value == CardValue.Wild);
-                Hand.Remove(turn.Card);
                 turn.DeclaredColor = SelectDominantColor();
                 turn.Result = TurnResult.WildCard;
+                Hand.Remove(turn.Card);
+
                 return turn;
             }
 
@@ -212,10 +218,10 @@ namespace UnoModellingPractice.GameObjects
             //We cannot play wild draw four unless there are no other matches.
             if(matching.All(x => x.Value == CardValue.DrawFour))
             {
-                Hand.Remove(matching.First());
                 turn.Card = matching.First();
                 turn.DeclaredColor = SelectDominantColor();
                 turn.Result = TurnResult.WildCard;
+                Hand.Remove(matching.First());
 
                 return turn;
             }
@@ -237,6 +243,7 @@ namespace UnoModellingPractice.GameObjects
                 turn.Result = TurnResult.Skip;
                 turn.DeclaredColor = turn.Card.Color;
                 Hand.Remove(turn.Card);
+
                 return turn;
             }
 
@@ -246,6 +253,7 @@ namespace UnoModellingPractice.GameObjects
                 turn.Result = TurnResult.Reversed;
                 turn.DeclaredColor = turn.Card.Color;
                 Hand.Remove(turn.Card);
+
                 return turn;
             }
 
@@ -261,32 +269,36 @@ namespace UnoModellingPractice.GameObjects
                 var correspondingValue = Hand.Where(x => x.Value == matchOnValue.First().Value);
                 if(correspondingColor.Count() >= correspondingValue.Count())
                 {
-                    Hand.Remove(matchOnColor.First());
                     turn.Card = matchOnColor.First();
                     turn.DeclaredColor = turn.Card.Color;
+                    Hand.Remove(matchOnColor.First());
+
                     return turn;
                 }
                 else //Match on value
                 {
-                    Hand.Remove(matchOnValue.First());
                     turn.Card = matchOnValue.First();
                     turn.DeclaredColor = turn.Card.Color;
+                    Hand.Remove(matchOnValue.First());
+
                     return turn;
                 }
                 //Figure out which of these is better
             }
             else if(matchOnColor.Any())
             {
-                Hand.Remove(matchOnColor.First());
                 turn.Card = matchOnColor.First();
                 turn.DeclaredColor = turn.Card.Color;
+                Hand.Remove(matchOnColor.First());
+
                 return turn;
             }
             else if(matchOnValue.Any())
             {
-                Hand.Remove(matchOnValue.First());
                 turn.Card = matchOnValue.First();
                 turn.DeclaredColor = turn.Card.Color;
+                Hand.Remove(matchOnValue.First());
+
                 return turn;
             }
 
@@ -294,9 +306,10 @@ namespace UnoModellingPractice.GameObjects
             if (matching.Any(x => x.Value == CardValue.Wild))
             {
                 turn.Card = matching.First(x => x.Value == CardValue.Wild);
-                Hand.Remove(turn.Card);
                 turn.DeclaredColor = SelectDominantColor();
                 turn.Result = TurnResult.WildCard;
+                Hand.Remove(turn.Card);
+
                 return turn;
             }
 

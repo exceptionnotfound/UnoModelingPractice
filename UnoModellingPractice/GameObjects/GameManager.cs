@@ -16,16 +16,15 @@ namespace UnoModellingPractice.GameObjects
         {
             Players = new List<Player>();
             DrawPile = new CardDeck();
+            DrawPile.Shuffle();
 
-            for(int i = 1; i <= numPlayers; i++)
+            for (int i = 1; i <= numPlayers; i++)
             {
                 Players.Add(new Player()
                 {
                     Position = i
                 });
             }
-
-            DrawPile.Shuffle();
 
             int maxCards = 7 * Players.Count;
             int dealtCards = 0;
@@ -94,20 +93,13 @@ namespace UnoModellingPractice.GameObjects
 
                 currentTurn = Players[i].PlayTurn(currentTurn, DrawPile);
 
-                if (currentTurn.Result == TurnResult.PlayedCard 
-                    || currentTurn.Result == TurnResult.DrawTwo
-                    || currentTurn.Result == TurnResult.Skip
-                    || currentTurn.Result == TurnResult.WildCard
-                    || currentTurn.Result == TurnResult.WildDrawFour
-                    || currentTurn.Result == TurnResult.Reversed)
-                {
-                    DiscardPile.Insert(0, currentTurn.Card);
-                }
+                AddToDiscardPile(currentTurn);
 
                 if (currentTurn.Result == TurnResult.Reversed)
                 {
                     isAscending = !isAscending;
                 }
+
                 if (isAscending)
                 {
                     i++;
@@ -128,6 +120,19 @@ namespace UnoModellingPractice.GameObjects
 
             var winningPlayer = Players.Where(x => !x.Hand.Any()).First();
             Console.WriteLine("Player " + winningPlayer.Position.ToString() + " wins!!");
+        }
+
+        private void AddToDiscardPile(PlayerTurn currentTurn)
+        {
+            if (currentTurn.Result == TurnResult.PlayedCard
+                    || currentTurn.Result == TurnResult.DrawTwo
+                    || currentTurn.Result == TurnResult.Skip
+                    || currentTurn.Result == TurnResult.WildCard
+                    || currentTurn.Result == TurnResult.WildDrawFour
+                    || currentTurn.Result == TurnResult.Reversed)
+            {
+                DiscardPile.Insert(0, currentTurn.Card);
+            }
         }
     }
 }

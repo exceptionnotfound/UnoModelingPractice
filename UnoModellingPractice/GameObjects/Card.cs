@@ -11,13 +11,6 @@ namespace UnoModellingPractice.GameObjects
         public CardColor Color { get; set; }
         public CardValue Value { get; set; }
 
-        public bool IsAttackingCard()
-        {
-            return Value == CardValue.Skip
-                || Value == CardValue.DrawTwo
-                || Value == CardValue.DrawFour;
-        }
-
         public string DisplayValue
         {
             get
