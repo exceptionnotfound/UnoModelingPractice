@@ -68,30 +68,25 @@ namespace UnoModellingPractice.GameObjects
             {
                 Result = TurnResult.GameStart,
                 Card = DiscardPile.First(),
-                DeclaredColor = DiscardPile.First().Color,
-                IsAttacking = DiscardPile.First().IsAttackingCard()
+                DeclaredColor = DiscardPile.First().Color
             };
-
-            CardColor currentColor = CardColor.Red;
 
             Console.WriteLine("First card is a " + currentTurn.Card.DisplayValue + ".");
 
             while(!Players.Any(x => !x.Hand.Any()))
             {
-                if(currentTurn.Result == TurnResult.WildCard)
-                {
-                    currentColor = currentTurn.DeclaredColor;
-                }
-                else
-                {
-                    currentColor = currentTurn.Card.Color;
-                }
-
                 if(DrawPile.Cards.Count < 4) //Cheating a bit here
                 {
                     var currentCard = DiscardPile.First();
+                    
+                    //Take the discarded cards, shuffle them, and make them the new draw pile.
                     DrawPile.Cards = DiscardPile.Skip(1).ToList();
                     DrawPile.Shuffle();
+
+                    //Reset the discard pile to only have the current card.
+                    DiscardPile = new List<Card>();
+                    DiscardPile.Add(currentCard);
+                    
                     Console.WriteLine("Shuffling cards!");
                 }
 

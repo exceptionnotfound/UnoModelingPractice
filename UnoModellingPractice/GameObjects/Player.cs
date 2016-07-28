@@ -25,33 +25,43 @@ namespace UnoModellingPractice.GameObjects
             {
                 return ProcessAttack(previousTurn.Card, drawPile);
             }
-            else if ((previousTurn.Result == TurnResult.WildCard || previousTurn.Result == TurnResult.Attacked || previousTurn.Result == TurnResult.ForceDraw) 
+            else if ((previousTurn.Result == TurnResult.WildCard 
+                        || previousTurn.Result == TurnResult.Attacked 
+                        || previousTurn.Result == TurnResult.ForceDraw) 
                         && HasMatch(previousTurn.DeclaredColor))
             {
-                turn = PlayMatchingColor(previousTurn.DeclaredColor);
+                turn = PlayMatchingCard(previousTurn.DeclaredColor);
             }
             else if (HasMatch(previousTurn.Card))
             {
                 turn = PlayMatchingCard(previousTurn.Card);
             }
-            else
+            else //Draw a card and see if it can play
             {
-                var drawnCard = drawPile.Draw(1);
-                Hand.AddRange(drawnCard);
-
-                if (HasMatch(previousTurn.Card))
-                {
-                    turn = PlayMatchingCard(previousTurn.Card);
-                    turn.Result = TurnResult.ForceDrawPlay;
-                }
-                else
-                {
-                    turn.Result = TurnResult.ForceDraw;
-                    turn.Card = previousTurn.Card;
-                }
+                turn = DrawCard(previousTurn, drawPile);
             }
 
             DisplayTurn(turn);
+            return turn;
+        }
+
+        private PlayerTurn DrawCard(PlayerTurn previousTurn, CardDeck drawPile)
+        {
+            PlayerTurn turn = new PlayerTurn();
+            var drawnCard = drawPile.Draw(1);
+            Hand.AddRange(drawnCard);
+
+            if (HasMatch(previousTurn.Card))
+            {
+                turn = PlayMatchingCard(previousTurn.Card);
+                turn.Result = TurnResult.ForceDrawPlay;
+            }
+            else
+            {
+                turn.Result = TurnResult.ForceDraw;
+                turn.Card = previousTurn.Card;
+            }
+
             return turn;
         }
 
@@ -126,7 +136,7 @@ namespace UnoModellingPractice.GameObjects
             return Hand.Any(x => x.Color == color || x.Color == CardColor.Wild);
         }
 
-        private PlayerTurn PlayMatchingColor(CardColor color)
+        private PlayerTurn PlayMatchingCard(CardColor color)
         {
             var turn = new PlayerTurn();
             turn.Result = TurnResult.PlayedCard;
@@ -170,21 +180,21 @@ namespace UnoModellingPractice.GameObjects
                 return turn;
             }
 
-            if (matching.Any(x => x.Value == CardValue.Wild))
-            {
-                turn.Card = matching.First(x => x.Value == CardValue.Wild);
-                Hand.Remove(turn.Card);
-                turn.DeclaredColor = SelectDominantColor();
-                turn.Result = TurnResult.WildCard;
-                return turn;
-            }
-
             var matchOnColor = matching.Where(x => x.Color == color);
             if (matchOnColor.Any())
             {
                 Hand.Remove(matchOnColor.First());
                 turn.Card = matchOnColor.First();
                 turn.DeclaredColor = turn.Card.Color;
+                return turn;
+            }
+
+            if (matching.Any(x => x.Value == CardValue.Wild))
+            {
+                turn.Card = matching.First(x => x.Value == CardValue.Wild);
+                Hand.Remove(turn.Card);
+                turn.DeclaredColor = SelectDominantColor();
+                turn.Result = TurnResult.WildCard;
                 return turn;
             }
 
@@ -239,15 +249,6 @@ namespace UnoModellingPractice.GameObjects
                 return turn;
             }
 
-            if(matching.Any(x=>x.Value == CardValue.Wild))
-            {
-                turn.Card = matching.First(x => x.Value == CardValue.Wild);
-                Hand.Remove(turn.Card);
-                turn.DeclaredColor = SelectDominantColor();
-                turn.Result = TurnResult.WildCard;
-                return turn;
-            }
-
             //At this point the player has a choice of sorts
             //Assuming he has a match on color AND a match on value, he can choose which to play
             //For this demo, we'll assume that playing the match with MORE possible plays from his hand is the better option.
@@ -286,6 +287,16 @@ namespace UnoModellingPractice.GameObjects
                 Hand.Remove(matchOnValue.First());
                 turn.Card = matchOnValue.First();
                 turn.DeclaredColor = turn.Card.Color;
+                return turn;
+            }
+
+            //Play regular wilds last.  If a wild becomes our last card, we win on the next turn!
+            if (matching.Any(x => x.Value == CardValue.Wild))
+            {
+                turn.Card = matching.First(x => x.Value == CardValue.Wild);
+                Hand.Remove(turn.Card);
+                turn.DeclaredColor = SelectDominantColor();
+                turn.Result = TurnResult.WildCard;
                 return turn;
             }
 

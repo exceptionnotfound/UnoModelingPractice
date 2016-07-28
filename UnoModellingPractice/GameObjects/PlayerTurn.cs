@@ -11,7 +11,5 @@ namespace UnoModellingPractice.GameObjects
         public Card Card { get; set; }
         public CardColor DeclaredColor { get; set; }
         public TurnResult Result { get; set; }
-        public bool IsAttacking { get; set; }
-        public bool OrderReversed { get; set; }
     }
 }
