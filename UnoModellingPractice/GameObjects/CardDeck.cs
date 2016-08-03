@@ -33,18 +33,34 @@ namespace UnoModellingPractice.GameObjects
                             case CardValue.Seven:
                             case CardValue.Eight:
                             case CardValue.Nine:
+
+                                Cards.Add(new Card()
+                                {
+                                    Color = color,
+                                    Value = val,
+                                    PointValue = (int)val
+                                });
+                                Cards.Add(new Card()
+                                {
+                                    Color = color,
+                                    Value = val,
+                                    PointValue = (int)val
+                                });
+                                break;
                             case CardValue.Skip:
                             case CardValue.Reverse:
                             case CardValue.DrawTwo:
                                 Cards.Add(new Card()
                                 {
                                     Color = color,
-                                    Value = val
+                                    Value = val,
+                                    PointValue = 20
                                 });
                                 Cards.Add(new Card()
                                 {
                                     Color = color,
-                                    Value = val
+                                    Value = val,
+                                    PointValue = 20
                                 });
                                 break;
 
@@ -52,7 +68,8 @@ namespace UnoModellingPractice.GameObjects
                                 Cards.Add(new Card()
                                 {
                                     Color = color,
-                                    Value = val
+                                    Value = val,
+                                    PointValue = 0
                                 });
                                 break;
                         }
@@ -65,7 +82,8 @@ namespace UnoModellingPractice.GameObjects
                         Cards.Add(new Card()
                         {
                             Color = color,
-                            Value = CardValue.Wild
+                            Value = CardValue.Wild,
+                            PointValue = 50
                         });
                     }
                     for (int i = 1; i <= 4; i++)
@@ -73,7 +91,8 @@ namespace UnoModellingPractice.GameObjects
                         Cards.Add(new Card()
                         {
                             Color = color,
-                            Value = CardValue.DrawFour
+                            Value = CardValue.DrawFour,
+                            PointValue = 50
                         });
                     }
                 }
