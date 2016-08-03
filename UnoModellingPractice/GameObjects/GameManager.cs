@@ -123,7 +123,7 @@ namespace UnoModellingPractice.GameObjects
 
             foreach(var player in Players)
             {
-                Console.WriteLine("Player " + player.Position.ToString() + " has " + player.Hand.Sum(x => x.PointValue).ToString() + " points in his hand.");
+                Console.WriteLine("Player " + player.Position.ToString() + " has " + player.Hand.Sum(x => x.Score).ToString() + " points in his hand.");
             }
         }
 

@@ -38,13 +38,13 @@ namespace UnoModellingPractice.GameObjects
                                 {
                                     Color = color,
                                     Value = val,
-                                    PointValue = (int)val
+                                    Score = (int)val
                                 });
                                 Cards.Add(new Card()
                                 {
                                     Color = color,
                                     Value = val,
-                                    PointValue = (int)val
+                                    Score = (int)val
                                 });
                                 break;
                             case CardValue.Skip:
@@ -54,13 +54,13 @@ namespace UnoModellingPractice.GameObjects
                                 {
                                     Color = color,
                                     Value = val,
-                                    PointValue = 20
+                                    Score = 20
                                 });
                                 Cards.Add(new Card()
                                 {
                                     Color = color,
                                     Value = val,
-                                    PointValue = 20
+                                    Score = 20
                                 });
                                 break;
 
@@ -69,7 +69,7 @@ namespace UnoModellingPractice.GameObjects
                                 {
                                     Color = color,
                                     Value = val,
-                                    PointValue = 0
+                                    Score = 0
                                 });
                                 break;
                         }
@@ -83,7 +83,7 @@ namespace UnoModellingPractice.GameObjects
                         {
                             Color = color,
                             Value = CardValue.Wild,
-                            PointValue = 50
+                            Score = 50
                         });
                     }
                     for (int i = 1; i <= 4; i++)
@@ -92,7 +92,7 @@ namespace UnoModellingPractice.GameObjects
                         {
                             Color = color,
                             Value = CardValue.DrawFour,
-                            PointValue = 50
+                            Score = 50
                         });
                     }
                 }
